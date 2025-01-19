@@ -28,8 +28,6 @@ else
     CRON_ENV="$CRON_ENV\nHEALTHCHECK_ID='$HEALTHCHECK_ID'"
     CRON_ENV="$CRON_ENV\nHEALTHCHECK_HOST='$HEALTHCHECK_HOST'"
     echo -e "$CRON_ENV\n$CRON_SCHEDULE /usr/bin/flock -n /app/sync.lock sh /app/sync.sh > $LOGFIFO 2>&1" | crontab -u abc -
-
-    echo -e '* * * * * echo "test: $(date)" >'" $LOGFIFO 2>&1" | crontab -
     cron
     tail -f "$LOGFIFO"
 fi
