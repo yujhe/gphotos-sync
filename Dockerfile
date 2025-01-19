@@ -1,7 +1,7 @@
 FROM golang:1.23-bookworm AS build
-# ENV GO111MODULE=on
+ENV GO111MODULE=on
 
-RUN go install github.com/spraot/gphotos-cdp@322ec982
+RUN go install github.com/spraot/gphotos-cdp@f3baec28
 
 FROM debian:bookworm-slim
 
