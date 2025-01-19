@@ -22,11 +22,14 @@ else
     if [[ ! -e "$LOGFIFO" ]]; then
         mkfifo "$LOGFIFO"
     fi
+    chmod a+rw $LOGFIFO
+
     CRON_ENV="CHROMIUM_USER_FLAGS='--no-sandbox'"
     CRON_ENV="$CRON_ENV\nHEALTHCHECK_ID='$HEALTHCHECK_ID'"
     CRON_ENV="$CRON_ENV\nHEALTHCHECK_HOST='$HEALTHCHECK_HOST'"
     echo -e "$CRON_ENV\n$CRON_SCHEDULE /usr/bin/flock -n /app/sync.lock sh /app/sync.sh > $LOGFIFO 2>&1" | crontab -u abc -
-    crontab -u abc -l
+
+    echo -e '* * * * * echo "test: $(date)" >'" $LOGFIFO 2>&1" | crontab -
     cron
     tail -f "$LOGFIFO"
 fi
