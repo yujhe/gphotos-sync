@@ -4,12 +4,6 @@ set -e
 
 CRON_SCHEDULE=${CRON_SCHEDULE:-0 * * * *}
 
-# if [[ -n "$AWS_ACCESS_KEY_ID"  &&  -n "$AWS_SECRET_ACCESS_KEY" ]]; then
-#     echo "Credentials found"
-# else
-#     echo "WARNING No AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY env variable found, assume use of IAM"
-# fi
-
 PUID=${PUID:-1001}
 PGID=${PGID:-1001}
 
@@ -23,6 +17,7 @@ chown abc:abc /app
 if [[ "$1" == 'no-cron' ]]; then
     sudo -u abc sh /app/sync.sh
 else
+    echo "Scheduling cron job for: $CRON_SCHEDULE"
     LOGFIFO='/var/log/cron.fifo'
     if [[ ! -e "$LOGFIFO" ]]; then
         mkfifo "$LOGFIFO"
@@ -31,6 +26,7 @@ else
     CRON_ENV="$CRON_ENV\nHEALTHCHECK_ID='$HEALTHCHECK_ID'"
     CRON_ENV="$CRON_ENV\nHEALTHCHECK_HOST='$HEALTHCHECK_HOST'"
     echo -e "$CRON_ENV\n$CRON_SCHEDULE /usr/bin/flock -n /app/sync.lock sh /app/sync.sh > $LOGFIFO 2>&1" | crontab -u abc -
+    crontab -u abc -l
     cron
     tail -f "$LOGFIFO"
 fi
