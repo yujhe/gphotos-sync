@@ -4,7 +4,8 @@ FROM dorowu/ubuntu-desktop-lxde-vnc
 ENV HOME=/home/abc \
     USER=abc \
     PGID=1000 \
-    PUID=1000
+    PUID=1000 \
+    CHROME_PACKAGE=google-chrome-stable_current_amd64.deb
 
 RUN \
     # Create a non-root user
@@ -13,13 +14,7 @@ RUN \
     && echo 'abc ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Install/update Chrome
-RUN apt-get update && apt-get install -y \
-        apt-transport-https \
-        ca-certificates \
-        cron \
-        wget \
-        sudo \
-    --no-install-recommends && \
+RUN \
     wget https://dl.google.com/linux/direct/$CHROME_PACKAGE && \
     dpkg --force-all -i ./$CHROME_PACKAGE && \
     rm ./$CHROME_PACKAGE && \
