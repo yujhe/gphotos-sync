@@ -16,10 +16,7 @@ PGID=${PGID:-1001}
 addgroup abc --gid "${PGID}" --quiet
 adduser abc --uid "${PUID}" --gid "${PGID}" --disabled-password --gecos "" --quiet
 
-echo "Running with:
-User uid: $(id -u abc)
-User gid: $(id -g abc)
-"
+echo "Running with user uid: $(id -u abc) and user gid: $(id -g abc)"
 
 chown abc:abc /app
 
