@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/bin/bash
 
 echo "INFO: Starting sync.sh PID $$ $(date)"
 
