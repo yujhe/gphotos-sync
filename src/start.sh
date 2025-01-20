@@ -24,10 +24,11 @@ else
     fi
     chmod a+rw $LOGFIFO
 
+    (while true; do cat "$LOGFIFO" || sleep 0.2; done) &
+
     CRON_ENV="CHROMIUM_USER_FLAGS='--no-sandbox'"
     CRON_ENV="$CRON_ENV\nHEALTHCHECK_ID='$HEALTHCHECK_ID'"
     CRON_ENV="$CRON_ENV\nHEALTHCHECK_HOST='$HEALTHCHECK_HOST'"
     echo -e "$CRON_ENV\n$CRON_SCHEDULE /usr/bin/flock -n /app/sync.lock sh /app/sync.sh > $LOGFIFO 2>&1" | crontab -u abc -
-    cron
-    tail -f "$LOGFIFO"
+    cron -f
 fi
