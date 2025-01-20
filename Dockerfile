@@ -7,14 +7,17 @@ RUN go install $GPHOTOS_CDP_VERSION
 
 FROM debian:bookworm-slim
 
-ENV LANG=C.UTF-8
-ENV LC_ALL=C.UTF-8
-ENV CHROME_PACKAGE=google-chrome-stable_current_amd64.deb
-ENV DEBIAN_FRONTEND=noninteractive
+ENV \
+    LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    CHROME_PACKAGE=google-chrome-stable_current_amd64.deb \
+    DEBIAN_FRONTEND=noninteractive \
+    HEALTHCHECK_HOST="https://hc-ping.com"
 
 RUN apt-get update && apt-get install -y \
         apt-transport-https \
         ca-certificates \
+        curl \
         cron \
         wget \
         sudo \
