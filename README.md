@@ -1,3 +1,5 @@
+Inspired by / based on https://github.com/JakeWharton/docker-gphotos-sync (thanks Jake!)
+
 Example docker compose definition:
 
 ```yaml
