@@ -9,7 +9,7 @@ fi
 set -e
 
 rm -f /tmp/gphotos-cdp/Singleton*
-gphotos-cdp -dev -headless -dldir /download -date
+gphotos-cdp -dev -headless -dldir /download -date -json
 
 echo "{\"level\": \"INFO\", \"message\": \"Completed sync.sh, pid: $$\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
 
