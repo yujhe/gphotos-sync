@@ -1,9 +1,9 @@
 FROM golang:1.23-bookworm AS build
 
-ARG GPHOTOS_CDP_VERSION=4821f280
+ARG GPHOTOS_CDP_VERSION=github.com/spraot/gphotos-cdp@4821f280
 ENV GO111MODULE=on
 
-RUN go install github.com/spraot/gphotos-cdp@$GPHOTOS_CDP_VERSION
+RUN go install $GPHOTOS_CDP_VERSION
 
 FROM debian:bookworm-slim
 
