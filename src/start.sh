@@ -26,9 +26,15 @@ else
 
     (while true; do cat "$LOGFIFO" || sleep 0.2; done) &
 
-    CRON_ENV="CHROMIUM_USER_FLAGS='--no-sandbox'"
-    CRON_ENV="$CRON_ENV\nHEALTHCHECK_ID='$HEALTHCHECK_ID'"
-    CRON_ENV="$CRON_ENV\nHEALTHCHECK_HOST='$HEALTHCHECK_HOST'"
-    echo -e "$CRON_ENV\n$CRON_SCHEDULE /usr/bin/flock -n /app/sync.lock sh /app/sync.sh > $LOGFIFO 2>&1" | crontab -u abc -
+    CRON="CHROMIUM_USER_FLAGS='--no-sandbox'"
+    CRON="$CRON\nHEALTHCHECK_ID='$HEALTHCHECK_ID'"
+    CRON="$CRON\nHEALTHCHECK_HOST='$HEALTHCHECK_HOST'"
+    CRON="$CRON\n$CRON_SCHEDULE /usr/bin/flock -n /app/sync.lock sh /app/sync.sh > $LOGFIFO 2>&1"
+
+    if [ -n "$RESTART_SCHEDULE" ]; then
+        CRON="$CRON\n$RESTART_SCHEDULE rm /download/.lastdone* && echo \"Deleting .lastdone to restart schedule\" > $LOGFIFO 2>&1"
+    fi
+
+    echo -e "$CRON" | crontab -u abc -
     cron -f
 fi
