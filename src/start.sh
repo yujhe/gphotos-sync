@@ -10,14 +10,14 @@ PGID=${PGID:-1001}
 addgroup abc --gid "${PGID}" --quiet
 adduser abc --uid "${PUID}" --gid "${PGID}" --disabled-password --gecos "" --quiet
 
-echo "Running with user uid: $(id -u abc) and user gid: $(id -g abc)"
+echo "{\"level\": \"INFO\", \"message\": \"Running with user uid: $(id -u abc) and user gid: $(id -g abc)\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
 
 chown abc:abc /app
 
 if [[ "$1" == 'no-cron' ]]; then
     sudo -u abc sh /app/sync.sh
 else
-    echo "Scheduling cron job for: $CRON_SCHEDULE"
+    echo "{\"level\": \"INFO\", \"message\": \"Scheduling cron job for: $CRON_SCHEDULE\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
     LOGFIFO='/var/log/cron.fifo'
     if [[ ! -e "$LOGFIFO" ]]; then
         mkfifo "$LOGFIFO"
