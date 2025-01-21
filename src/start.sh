@@ -30,6 +30,7 @@ else
     CRON="$CRON\nHEALTHCHECK_ID='$HEALTHCHECK_ID'"
     CRON="$CRON\nHEALTHCHECK_HOST='$HEALTHCHECK_HOST'"
     CRON="$CRON\nLOGLEVEL='$LOGLEVEL'"
+    CRON="$CRON\nWORKER_COUNT='$WORKER_COUNT'"
     CRON="$CRON\n$CRON_SCHEDULE /usr/bin/flock -n /app/sync.lock sh /app/sync.sh > $LOGFIFO 2>&1"
 
     if [ -n "$RESTART_SCHEDULE" ]; then

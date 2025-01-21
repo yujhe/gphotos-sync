@@ -8,8 +8,13 @@ fi
 
 set -e
 
+# If worker count is set, add parameter name
+if [ -n "$WORKER_COUNT" ]; then
+  WORKER_COUNT="-workers $WORKER_COUNT"
+fi
+
 rm -f /tmp/gphotos-cdp/Singleton*
-gphotos-cdp -dev -headless -dldir /download -date -json -loglevel $LOGLEVEL
+gphotos-cdp -dev -headless -dldir /download -date -json -loglevel $LOGLEVEL $WORKER_COUNT
 
 echo "{\"level\": \"INFO\", \"message\": \"Completed sync.sh, pid: $$\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
 
