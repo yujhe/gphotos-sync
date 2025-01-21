@@ -10,6 +10,8 @@ PGID=${PGID:-1001}
 addgroup abc --gid "${PGID}" --quiet
 adduser abc --uid "${PUID}" --gid "${PGID}" --disabled-password --gecos "" --quiet
 
+set -e
+
 echo "{\"level\": \"INFO\", \"message\": \"Running with user uid: $(id -u abc) and user gid: $(id -g abc)\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
 
 chown abc:abc /app
