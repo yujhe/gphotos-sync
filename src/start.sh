@@ -15,7 +15,7 @@ echo "{\"level\": \"INFO\", \"message\": \"Running with user uid: $(id -u abc) a
 chown abc:abc /app
 
 if [[ "$1" == 'no-cron' ]]; then
-    sudo -u abc sh /app/sync.sh
+    sudo -E -u abc sh /app/sync.sh
 else
     echo "{\"level\": \"INFO\", \"message\": \"Scheduling cron job for: $CRON_SCHEDULE\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
     LOGFIFO='/var/log/cron.fifo'
