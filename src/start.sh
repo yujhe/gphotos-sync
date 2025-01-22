@@ -1,5 +1,7 @@
 #!/bin/bash
 
+pidof cron && (echo "cron is already running" && exit 1)
+
 set -e
 
 CRON_SCHEDULE=${CRON_SCHEDULE:-0 * * * *}
@@ -7,10 +9,10 @@ CRON_SCHEDULE=${CRON_SCHEDULE:-0 * * * *}
 PUID=${PUID:-1001}
 PGID=${PGID:-1001}
 
+id abc 2>/dev/null || (
 addgroup abc --gid "${PGID}" --quiet
 adduser abc --uid "${PUID}" --gid "${PGID}" --disabled-password --gecos "" --quiet
-
-set -e
+)
 
 echo "{\"level\": \"INFO\", \"message\": \"Running with user uid: $(id -u abc) and user gid: $(id -g abc)\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
 
