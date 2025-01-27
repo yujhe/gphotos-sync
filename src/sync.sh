@@ -15,7 +15,7 @@ fi
 LOGLEVEL=${LOGLEVEL:-INFO}
 
 rm -f /tmp/gphotos-cdp/Singleton*
-gphotos-cdp -dev -headless -dldir /download -date -json -loglevel $LOGLEVEL $WORKER_COUNT
+gphotos-cdp -dev -headless -dldir /download -date -fix -json -loglevel $LOGLEVEL $WORKER_COUNT
 
 echo "{\"level\": \"INFO\", \"message\": \"Completed sync.sh, pid: $$\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
 
