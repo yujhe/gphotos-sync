@@ -38,7 +38,7 @@ else
     CRON="$CRON\n$CRON_SCHEDULE /usr/bin/flock -n /app/sync.lock sh /app/sync.sh > $LOGFIFO 2>&1"
 
     if [ -n "$RESTART_SCHEDULE" ]; then
-        CRON="$CRON\n$RESTART_SCHEDULE rm /download/.lastdone* && echo \"Deleting .lastdone to restart schedule\" > $LOGFIFO 2>&1"
+        CRON="$CRON\n$RESTART_SCHEDULE rm -f /download/.lastdone* && rm -f /download/**/.lastdone* && echo \"Deleting .lastdone to restart schedule\" > $LOGFIFO 2>&1"
     fi
 
     echo -e "$CRON" | crontab -u abc -
