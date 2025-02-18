@@ -15,7 +15,14 @@ fi
 LOGLEVEL=${LOGLEVEL:-INFO}
 
 rm -f /tmp/gphotos-cdp/Singleton*
-gphotos-cdp -dev -headless -dldir /download -date -fix -json -loglevel $LOGLEVEL $WORKER_COUNT
+
+if [ -n "$ALBUMS" ]; then
+  for ALBUM in $(echo $ALBUMS | tr ',' ' '); do
+    gphotos-cdp -dev -headless -dldir "/download/$ALBUM" -date -fix -json -loglevel $LOGLEVEL $WORKER_COUNT -album "$ALBUM"
+  done
+else
+  gphotos-cdp -dev -headless -dldir /download -date -fix -json -loglevel $LOGLEVEL $WORKER_COUNT
+fi
 
 echo "{\"level\": \"INFO\", \"message\": \"Completed sync.sh, pid: $$\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
 

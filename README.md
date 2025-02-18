@@ -10,7 +10,7 @@ Example docker compose definition:
       context: https://github.com/spraot/gphotos-sync.git#{FULL_GIT_HASH}
       # Optionally override the version of gphotos-cdp to use (requires rebuilding the docker image):
       # args:
-      #   - GPHOTOS_CDP_VERSION=github.com/spraot/gphotos-cdp@38ca81fa
+      #   - GPHOTOS_CDP_VERSION=github.com/spraot/gphotos-cdp@0e64b699
     container_name: gphotos-sync
     restart: unless-stopped
     privileged: true # chrome seems to need this to run as 1000:1000
@@ -25,6 +25,7 @@ Example docker compose definition:
       - HEALTHCHECK_ID=d6e4a333-ce52-4129-9d3e-6722c3333333
       - LOGLEVEL=info
       - TZ=Europe/Berlin
+      - ALBUMS=  # comma separated list of album IDs to sync
 ```
 
 Clone this repo and use ./doauth.sh to create and authenticated profile dir and ./test.sh to test that it works. Or use ./test.sh to do your initial sync.

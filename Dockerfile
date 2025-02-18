@@ -1,6 +1,6 @@
 FROM golang:1.23-bookworm AS build
 
-ARG GPHOTOS_CDP_VERSION=github.com/spraot/gphotos-cdp@38ca81fa
+ARG GPHOTOS_CDP_VERSION=github.com/spraot/gphotos-cdp@0e64b699
 ENV GO111MODULE=on
 
 RUN go install $GPHOTOS_CDP_VERSION
@@ -13,7 +13,8 @@ ENV \
     CHROME_PACKAGE=google-chrome-stable_current_amd64.deb \
     DEBIAN_FRONTEND=noninteractive \
     LOGLEVEL=INFO \
-    HEALTHCHECK_HOST="https://hc-ping.com"
+    HEALTHCHECK_HOST="https://hc-ping.com" \
+    ALBUMS=
 
 RUN apt-get update && apt-get install -y \
         apt-transport-https \
