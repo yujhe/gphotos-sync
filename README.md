@@ -34,10 +34,10 @@ RESTART_SCHEDULE sets how ofen you start the sync from the beginning in order to
 
 ## Downloading an album
 
-You can download photos from a specific album by setting the contents of the .lastdone file to the URL of the oldest photo in the album you want to download. E.g.
+Set ALBUMS to a comma seperated list of album IDs, where the album URL is:
 
 ```
-https://photos.google.com/album/ALBUM_ID/photo/PHOTO_ID
+https://photos.google.com/album/{ALBUM_ID}
 ```
 
 ## Regarding language
