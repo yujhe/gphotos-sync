@@ -6,8 +6,8 @@ Example docker compose definition:
   gphotos-sync:
     build:
       context: https://github.com/spraot/gphotos-sync.git
-      # I recommend using a specific commit:
-      context: https://github.com/spraot/gphotos-sync.git#{FULL_GIT_HASH}
+      # I recommend using a specific commit instead though:
+      # context: https://github.com/spraot/gphotos-sync.git#{FULL_GIT_HASH}
       # Optionally override the version of gphotos-cdp to use (requires rebuilding the docker image):
       # args:
       #   - GPHOTOS_CDP_VERSION=github.com/spraot/gphotos-cdp@0e64b699
