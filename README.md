@@ -7,7 +7,7 @@ Example docker compose definition:
     build:
       context: https://github.com/spraot/gphotos-sync.git#b25583b6b2209c8fe75e55a40cab3e5c3657cebc # set to latest commit (full SHA)
       # args:
-      #   - GPHOTOS_CDP_VERSION=github.com/spraot/gphotos-cdp@6b5512dc # Optionally override the version of gphotos-cdp to use
+      #   - GPHOTOS_CDP_VERSION=github.com/spraot/gphotos-cdp@d07d4152 # Optionally override the version of gphotos-cdp to use
     container_name: gphotos-sync
     restart: unless-stopped
     privileged: true # chrome seems to need this to run as 1000:1000
