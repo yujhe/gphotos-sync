@@ -5,9 +5,12 @@ Example docker compose definition:
 ```yaml
   gphotos-sync:
     build:
-      context: https://github.com/spraot/gphotos-sync.git#ded8c75b67117a5a2ee9ca75c1327d5539dcccc4 # set to latest commit (full SHA)
+      context: https://github.com/spraot/gphotos-sync.git
+      # I recommend using a specific commit:
+      context: https://github.com/spraot/gphotos-sync.git#{FULL_GIT_HASH}
+      # Optionally override the version of gphotos-cdp to use (requires rebuilding the docker image):
       # args:
-      #   - GPHOTOS_CDP_VERSION=github.com/spraot/gphotos-cdp@d07d4152 # Optionally override the version of gphotos-cdp to use
+      #   - GPHOTOS_CDP_VERSION=github.com/spraot/gphotos-cdp@38ca81fa
     container_name: gphotos-sync
     restart: unless-stopped
     privileged: true # chrome seems to need this to run as 1000:1000
@@ -19,14 +22,22 @@ Example docker compose definition:
       - PGID=1000
       - CRON_SCHEDULE=27 * * * *
       - RESTART_SCHEDULE=26 1 * * 0
-      - HEALTHCHECK_ID=d6e4a42f-ce52-4129-9d3e-6722c028d951
+      - HEALTHCHECK_ID=d6e4a333-ce52-4129-9d3e-6722c3333333
       - LOGLEVEL=info
       - TZ=Europe/Berlin
 ```
 
 Clone this repo and use ./doauth.sh to create and authenticated profile dir and ./test.sh to test that it works. Or use ./test.sh to do your initial sync.
 
-RESTART_SCHEDULE sets how ofen you start the sync from the beginning in order to check for files that were uploaded with an older date. Normally sync will only download files with a newer "date taken" than the most recently downloaded file.
+RESTART_SCHEDULE sets how ofen you start the sync from the beginning in order to check for files that were uploaded with an older date. Normally sync will only download files with a newer "date taken" than the most recently downloaded file. This works by deleting the .lastdone file and restarting the sync.
+
+## Downloading an album
+
+You can download photos from a specific album by setting the contents of the .lastdone file to the URL of the oldest photo in the album you want to download. E.g.
+
+```
+https://photos.google.com/album/ALBUM_ID/photo/PHOTO_ID
+```
 
 ## Regarding language
 
