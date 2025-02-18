@@ -5,7 +5,7 @@ Example docker compose definition:
 ```yaml
   gphotos-sync:
     build:
-      context: https://github.com/spraot/gphotos-sync.git#b25583b6b2209c8fe75e55a40cab3e5c3657cebc # set to latest commit (full SHA)
+      context: https://github.com/spraot/gphotos-sync.git#ded8c75b67117a5a2ee9ca75c1327d5539dcccc4 # set to latest commit (full SHA)
       # args:
       #   - GPHOTOS_CDP_VERSION=github.com/spraot/gphotos-cdp@d07d4152 # Optionally override the version of gphotos-cdp to use
     container_name: gphotos-sync
