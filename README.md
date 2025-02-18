@@ -18,8 +18,8 @@ Example docker compose definition:
       - ./profile:/tmp/gphotos-cdp
       - ./photos:/download
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=1000  # Set to the current user's uid
+      - PGID=1000  # Set to the current user's gid
       - CRON_SCHEDULE=27 * * * *
       - RESTART_SCHEDULE=26 1 * * 0
       - HEALTHCHECK_ID=d6e4a333-ce52-4129-9d3e-6722c3333333
