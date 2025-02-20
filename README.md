@@ -3,6 +3,7 @@ Inspired by / based on https://github.com/JakeWharton/docker-gphotos-sync (thank
 Example docker compose definition:
 
 ```yaml
+services:
   gphotos-sync:
     build:
       context: https://github.com/spraot/gphotos-sync.git
@@ -30,7 +31,9 @@ Example docker compose definition:
 
 Clone this repo and use ./doauth.sh to create and authenticated profile dir and ./test.sh to test that it works. Or use ./test.sh to do your initial sync.
 
-RESTART_SCHEDULE sets how ofen you start the sync from the beginning in order to check for files that were uploaded with an older date. Normally sync will only download files with a newer "date taken" than the most recently downloaded file. This works by deleting the .lastdone file and restarting the sync.
+RESTART_SCHEDULE sets how ofen you start the sync from the beginning in order to check for files that were uploaded with an older date. Normally sync will only download files with a newer "date taken" than the most recently downloaded file. RESTART_SCHEDULE deletes the .lastdone file so that the next sync will start from the beginning (skipping already downloaded files).
+
+Files deleted on Google Photos after being downloaded will not be deleted locally.
 
 ## Downloading an album
 
@@ -39,6 +42,8 @@ Set ALBUMS to a comma seperated list of album IDs, where the album URL is:
 ```
 https://photos.google.com/album/{ALBUM_ID}
 ```
+
+Note: the album must be sorted newest first, otherwise files added after the initial sync will not be downloaded.
 
 ## Regarding language
 
