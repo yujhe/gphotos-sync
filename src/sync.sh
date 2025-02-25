@@ -2,14 +2,6 @@
 
 echo "{\"level\": \"INFO\", \"message\": \"Starting sync.sh, pid: $$\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
 
-if [ -n "$GPHOTOS_CDP_SRC" ]; then
-  echo "{\"level\": \"INFO\", \"message\": \"Building gphotos-cdp from source: $GPHOTOS_CDP_SRC\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
-  pushd $GPHOTOS_CDP_SRC
-  go build
-  cp gphotos-cdp /usr/bin/
-  popd
-fi
-
 if [ -n "$HEALTHCHECK_ID" ]; then
   curl -sS -X POST -o /dev/null "$HEALTHCHECK_HOST/$HEALTHCHECK_ID/start"
 fi
@@ -26,7 +18,7 @@ rm -f /tmp/gphotos-cdp/Singleton*
 
 if [ -n "$ALBUMS" ]; then
   for ALBUM in $(echo $ALBUMS | tr ',' ' '); do
-    gphotos-cdp -dev -headless -dldir "/download/$ALBUM" -date -fix -json -loglevel $LOGLEVEL $WORKER_COUNT -album "$ALBUM"
+    gphotos-cdp -dev -headless -dldir "/download/$ALBUM" -date -fix -loglevel $LOGLEVEL $WORKER_COUNT -album "$ALBUM"
   done
 else
   gphotos-cdp -dev -headless -dldir /download -date -fix -json -loglevel $LOGLEVEL $WORKER_COUNT
