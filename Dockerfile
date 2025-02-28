@@ -12,11 +12,16 @@ FROM debian:bookworm-slim
 ENV \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
+    CRON_SCHEDULE="0 0 * * *" \
+    RESTART_SCHEDULE= \
     CHROME_PACKAGE=google-chrome-stable_current_amd64.deb \
     DEBIAN_FRONTEND=noninteractive \
     LOGLEVEL=INFO \
     HEALTHCHECK_HOST="https://hc-ping.com" \
-    ALBUMS=
+    HEALTHCHECK_ID= \
+    ALBUMS= \
+    WORKER_COUNT=6 \
+    GPHOTOS_CDP_ARGS=
 
 RUN apt-get update && apt-get install -y \
         apt-transport-https \
