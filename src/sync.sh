@@ -15,10 +15,10 @@ rm -f /tmp/gphotos-cdp/Singleton*
 
 if [ -n "$ALBUMS" ]; then
   for ALBUM in $(echo $ALBUMS | tr ',' ' '); do
-    gphotos-cdp -dev -headless -dldir "/download/$ALBUM" -date -fix -loglevel $LOGLEVEL -workers $WORKER_COUNT $GPHOTOS_CDP_ARGS -album "$ALBUM"
+    gphotos-cdp -dev -headless -dldir "/download/$ALBUM" -date -fix -loglevel $LOGLEVEL -removed -workers $WORKER_COUNT $GPHOTOS_CDP_ARGS -album "$ALBUM"
   done
 else
-  gphotos-cdp -dev -headless -dldir /download -date -fix -json -loglevel $LOGLEVEL -workers $WORKER_COUNT $GPHOTOS_CDP_ARGS
+  gphotos-cdp -dev -headless -dldir /download -date -fix -json -loglevel $LOGLEVEL -removed -workers $WORKER_COUNT $GPHOTOS_CDP_ARGS
 fi
 
 echo "{\"level\": \"INFO\", \"message\": \"Completed sync.sh, pid: $$\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
