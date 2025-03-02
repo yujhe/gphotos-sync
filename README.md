@@ -27,13 +27,12 @@ services:
       - LOGLEVEL=info
       - TZ=Europe/Berlin
       - ALBUMS=  # comma separated list of album IDs to sync
+      - GPHOTOS_CDP_ARGS=  # additional arguments to pass to gphotos-cdp
 ```
 
 Clone this repo and use ./doauth.sh to create and authenticated profile dir and ./test.sh to test that it works. Or use ./test.sh to do your initial sync.
 
-RESTART_SCHEDULE sets how ofen you start the sync from the beginning in order to check for files that were uploaded with an older date. Normally sync will only download files with a newer "date taken" than the most recently downloaded file. RESTART_SCHEDULE deletes the .lastdone file so that the next sync will start from the beginning (skipping already downloaded files).
-
-Files deleted on Google Photos after being downloaded will not be deleted locally.
+Files deleted on Google Photos after being downloaded will not be deleted locally, but a list of such files will be saved to `.removed`.
 
 ## Downloading an album
 
@@ -43,11 +42,19 @@ Set ALBUMS to a comma seperated list of album IDs, where the album URL is:
 https://photos.google.com/album/{ALBUM_ID}
 ```
 
-Note: the album must be sorted newest first, otherwise files added after the initial sync will not be downloaded.
+You can provide just the album ID for normal albums, or the whole relative path in case of other types of albums (e.g. `shared/<SHARED_ALBUM_ID>`). To sync albums and the entire library, add "ALL" to the list of albums.
+
+## Legacy mode
+
+Setting `GPHOTOS_CDP_ARGS=-legacy` will cause the sync to run in "legacy" mode. This mode is *much* slower at scanning through your entire library, but is much faster at doing the initial synchronization (where all files need to be downloaded). Thus using -legacy for the initial synchronization can be helpful. Switching between regular and legacy mode can be done at any time.
+
+In legacy mode, syncs always start where the last run ended, so if we want to check for new files that have a 'date taken' older than that file, you will need to delete the `.lastdone` file. RESTART_SCHEDULE automates this by deleting .lastdone file on the cron schedule givenso that the next sync will start from the beginning (skipping already downloaded files).
+
+Note: if using -legacy mode and ALBUMS, the albums must be sorted newest first, otherwise files added after the initial sync will not be downloaded.
 
 ## Regarding language
 
-It may be necessary to set your account language to "English (United States)" for this to work (see [#2](https://github.com/spraot/gphotos-sync/issues/2)). This is the likely cause if you see date parsing errors or similar.
+It may be necessary to set your account language to "English (United States)" for this to work (see [#2](https://github.com/spraot/gphotos-sync/issues/2)). This is the likely cause if you see date parsing errors or similar. Help localizing [gphotos-cdp](https://github.com/spraot/gphotos-cdp/issues/2) is welcome.
 
 ## Issues caused by highlight videos
 
