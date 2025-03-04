@@ -18,10 +18,11 @@ rm -f $PROFILE_DIR/Singleton*
 
 if [ -n "$ALBUMS" ]; then
   for ALBUM in $(echo $ALBUMS | tr ',' ' '); do
+    ALBUM_DL_DIR="$DOWNLOAD_DIR/$(basename "$ALBUM")"
     if [ "$ALBUM" = "ALL" ]; then
-      eval gphotos-cdp -dldir "$DOWNLOAD_DIR/$ALBUM" $GPHOTOS_CDP_ARGS
+      eval gphotos-cdp -dldir "$ALBUM_DL_DIR" $GPHOTOS_CDP_ARGS
     else
-      eval gphotos-cdp -dldir "$DOWNLOAD_DIR/$ALBUM" $GPHOTOS_CDP_ARGS -album $ALBUM
+      eval gphotos-cdp -dldir "$ALBUM_DL_DIR" $GPHOTOS_CDP_ARGS -album $ALBUM
     fi
   done
 else
