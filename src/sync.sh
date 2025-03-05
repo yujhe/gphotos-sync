@@ -12,7 +12,7 @@ PROFILE_DIR="${PROFILE_DIR:-/tmp/gphotos-cdp}"
 DOWNLOAD_DIR="${DOWNLOAD_DIR:-/download}"
 WORKER_COUNT=${WORKER_COUNT:-6}
 LOGLEVEL=${LOGLEVEL:-INFO}
-GPHOTOS_CDP_ARGS="-profile \"$PROFILE_DIR\" -headless -json -loglevel $LOGLEVEL -removed -workers $WORKER_COUNT $GPHOTOS_CDP_ARGS" -run /app/postdl.sh
+GPHOTOS_CDP_ARGS="-profile \"$PROFILE_DIR\" -headless -json -loglevel $LOGLEVEL -removed -workers $WORKER_COUNT $GPHOTOS_CDP_ARGS -run /app/postdl.sh"
 
 rm -f $PROFILE_DIR/Singleton*
 
