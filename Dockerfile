@@ -28,6 +28,7 @@ RUN apt-get update && apt-get install -y \
         ca-certificates \
         curl \
         cron \
+        exiftool \
         wget \
         sudo \
     --no-install-recommends && \
