@@ -20,6 +20,6 @@ elif [ $status -ne 0 ]; then
   while read line; do
     echo "{\"level\": \"error\", \"message\": \"exiftool: $line\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
   done <<< "$result"
+else
+  echo "{\"level\": \"info\", \"message\": \"added missing date in exif data for $(basename "$1")\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
 fi
-
-echo "{\"level\": \"info\", \"message\": \"added missing date in exif data for $(basename "$1")\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
