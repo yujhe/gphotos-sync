@@ -13,9 +13,9 @@ status=$?
 if [ $status -eq 2 ]; then
   exit 0
 elif [ $status -ne 0 ]; then
-  # ignore error if result contains "too large"
-  if [[ "$result" == *"too large"* ]]; then
-    echo "{\"level\": \"info\", \"message\": \"Cannot update date in exif data for $(basename \"$1\") due to file size limit\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
+  # ignore error if result contains "too large" or "invalid atom size"
+  if [[ "$result" == *"too large"* || "$result" == *"invalid atom size"* ]]; then
+    echo "{\"level\": \"info\", \"message\": \"skipping date update in exif data for $(basename \"$1\"), exiftool does not support this file\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
     exit 0
   fi
   for line in "$result"; do
