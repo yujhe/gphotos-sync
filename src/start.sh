@@ -14,14 +14,14 @@ addgroup abc --gid "${PGID}" --quiet
 adduser abc --uid "${PUID}" --gid "${PGID}" --disabled-password --gecos "" --quiet
 )
 
-echo "{\"level\": \"info\", \"message\": \"Running with user uid: $(id -u abc) and user gid: $(id -g abc)\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
+echo "{\"level\": \"info\", \"message\": \"running with user uid: $(id -u abc) and user gid: $(id -g abc)\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
 
 chown abc:abc /app
 
 if [[ "$1" == 'no-cron' ]]; then
     sudo -E -u abc sh /app/sync.sh
 else
-    echo "{\"level\": \"info\", \"message\": \"Scheduling cron job for: $CRON_SCHEDULE\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
+    echo "{\"level\": \"info\", \"message\": \"scheduling cron job for: $CRON_SCHEDULE\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
     LOGFIFO='/var/log/cron.fifo'
     if [[ ! -e "$LOGFIFO" ]]; then
         mkfifo "$LOGFIFO"

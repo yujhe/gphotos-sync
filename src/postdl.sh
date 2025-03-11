@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$1" ];then
-  echo "File argument required"
+  echo "file argument required"
   exit 1
 fi
 
@@ -22,4 +22,4 @@ elif [ $status -ne 0 ]; then
   done <<< "$result"
 fi
 
-echo "{\"level\": \"info\", \"message\": \"Added missing date in exif data for $(basename "$1")\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
+echo "{\"level\": \"info\", \"message\": \"added missing date in exif data for $(basename "$1")\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"

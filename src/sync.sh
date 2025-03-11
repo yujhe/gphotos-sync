@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "{\"level\": \"info\", \"message\": \"Starting sync.sh, pid: $$\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
+echo "{\"level\": \"info\", \"message\": \"starting sync.sh, pid: $$\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
 
 if [ -n "$HEALTHCHECK_ID" ]; then
   curl -sS -X POST -o /dev/null "$HEALTHCHECK_HOST/$HEALTHCHECK_ID/start"
@@ -29,7 +29,7 @@ else
   eval gphotos-cdp -dldir "$DOWNLOAD_DIR" $GPHOTOS_CDP_ARGS
 fi
 
-echo "{\"level\": \"info\", \"message\": \"Completed sync.sh, pid: $$\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
+echo "{\"level\": \"info\", \"message\": \"completed sync.sh, pid: $$\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
 
 if [ -n "$HEALTHCHECK_ID" ]; then
   curl -sS -X POST -o /dev/null --fail "$HEALTHCHECK_HOST/$HEALTHCHECK_ID"
