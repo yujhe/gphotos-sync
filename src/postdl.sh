@@ -5,8 +5,14 @@ if [ -z "$1" ];then
   exit 1
 fi
 
+# skip .avi files
+if [ "${1##*.}" = "avi" ]; then
+  echo "{\"level\": \"debug\", \"message\": \"skipping date update in exif data for $(basename \"$1\"), exiftool does not support this file\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
+  exit 0
+fi
+
 # Run exiftool and capture only stderr
-result=$(exiftool "-datetimeoriginal<FileModifyDate" -P -overwrite_original_in_place -if 'not $DateTimeOriginal' "$1" 2>&1 >/dev/null)
+result=$(exiftool "-datetimeoriginal<FileModifyDate" -P -overwrite_original_in_place -if 'not $DateTimeOriginal or ($datetimeoriginal gt ${filemodifydate;ShiftTime("1 0")}) or ($filemodifydate gt ${datetimeoriginal;ShiftTime("1 0")})' "$1" 2>&1 >/dev/null)
 
 # If exit code is 2, it just means that this operation didn't make any change. Other exit codes should be propagated
 status=$?
@@ -21,5 +27,5 @@ elif [ $status -ne 0 ]; then
     echo "{\"level\": \"error\", \"message\": \"exiftool: $line\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
   done <<< "$result"
 else
-  echo "{\"level\": \"info\", \"message\": \"added missing date in exif data for $(basename "$1")\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
+  echo "{\"level\": \"info\", \"message\": \"updated date in exif data for $(basename "$1") to match date in Google Photos\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
 fi
