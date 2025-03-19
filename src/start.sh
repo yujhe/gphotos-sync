@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /app/log.sh
+
 pidof cron && (echo "cron is already running" && exit 1)
 
 set -e
@@ -14,14 +16,14 @@ addgroup abc --gid "${PGID}" --quiet
 adduser abc --uid "${PUID}" --gid "${PGID}" --disabled-password --gecos "" --quiet
 )
 
-echo "{\"level\": \"info\", \"message\": \"running with user uid: $(id -u abc) and user gid: $(id -g abc)\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
+info "running with user uid: $(id -u abc) and user gid: $(id -g abc)"
 
 chown abc:abc /app
 
 if [[ "$1" == 'no-cron' ]]; then
     sudo -E -u abc sh /app/sync.sh
 else
-    echo "{\"level\": \"info\", \"message\": \"scheduling cron job for: $CRON_SCHEDULE\", \"dt\": \"$(date '+%FT%T.%3N%:z')\"}"
+    info "scheduling cron job for: $CRON_SCHEDULE"
     LOGFIFO='/var/log/cron.fifo'
     if [[ ! -e "$LOGFIFO" ]]; then
         mkfifo "$LOGFIFO"
