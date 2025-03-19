@@ -42,7 +42,7 @@ else
     CRON="$CRON\nGPHOTOS_LOCALE_FILE='$GPHOTOS_LOCALE_FILE'"
     CRON="$CRON\nDOWNLOAD_DIR='$DOWNLOAD_DIR'"
     CRON="$CRON\nPROFILE_DIR='$PROFILE_DIR'"
-    CRON="$CRON\n$CRON_SCHEDULE /usr/bin/flock -n /app/sync.lock sh /app/sync.sh > $LOGFIFO 2>&1"
+    CRON="$CRON\n$CRON_SCHEDULE /usr/bin/flock -n /app/sync.lock bash /app/sync.sh > $LOGFIFO 2>&1"
 
     if [ -n "$RESTART_SCHEDULE" ]; then
         CRON="$CRON\n$RESTART_SCHEDULE rm -f /download/.lastdone* && rm -f /download/**/.lastdone* && echo \"Deleting .lastdone to restart schedule\" > $LOGFIFO 2>&1"
