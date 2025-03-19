@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /app/log.sh
+. /app/log.sh
 
 info "starting sync.sh, pid: $$"
 
