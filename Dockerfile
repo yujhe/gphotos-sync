@@ -33,6 +33,7 @@ RUN apt-get update && apt-get install -y \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /go/bin/gphotos-cdp /usr/bin/
+COPY scripts /app
 
 ENTRYPOINT ["gphotos-cdp"]
 CMD ["-h"]
