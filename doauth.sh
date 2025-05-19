@@ -15,6 +15,6 @@ echo "giving VNC time to be ready, please wait..."
 sleep 2
 
 echo "Open chrome by using the open-chrome.sh script then close that browser window (inside the container) before continuing"
-read -p  "Press any key after you have authenticated in your browser at http://$(hostname):6080"
+read -p  "Press any key after you have authenticated in your browser at http://localhost:6080"
 
 docker compose down

@@ -2,6 +2,7 @@ services:
   auth:
     build:
       context: .
+    image: gphotos-sync-auth
     ports:
       - "6080:80"
     volumes:

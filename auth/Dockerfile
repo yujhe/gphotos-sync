@@ -20,6 +20,6 @@ RUN \
     rm ./$CHROME_PACKAGE && \
     rm -rf /var/lib/apt/lists/*
 
-COPY startup2.sh /startup2.sh
+COPY wraper_startup.sh /wraper_startup.sh
 
-ENTRYPOINT [ "/startup2.sh" ]
+ENTRYPOINT [ "/wraper_startup.sh" ]
