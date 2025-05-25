@@ -6,8 +6,6 @@ PROFILE_DIR=${PROFILE_DIR:-./profile}
 
 mkdir -p $PROFILE_DIR
 
-# docker build . --tag gphotos-sync
-
 cd auth
 PUID=$(id -u) PGID=$(id -g) docker compose up -d --build
 
