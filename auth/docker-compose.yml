@@ -3,6 +3,7 @@ services:
     build:
       context: .
     image: gphotos-sync-auth
+    user: "${PUID}:${PGID}"
     ports:
       - "6080:80"
     volumes:

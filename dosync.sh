@@ -45,6 +45,7 @@ docker run --rm \
   -v "$DOWNLOADS_DIR":/downloads  \
   -v "$PHOTOS_DIR":/PhotoLibrary \
   -v "$DB_DIR":/db \
+  -u $(id -u):$(id -g) \
   gphotos-sync:latest \
   ${sync_args[*]}
 
