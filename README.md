@@ -2,7 +2,7 @@
 
 A Docker container which runs the [yujhe/gphoto-cdp](https://github.com/yujhe/gphotos-cdps) tool automatically to synchronize Google Photos to local filesystem.
 
-Forked from [spraot/gphotos-sync](https://github.com/spraot/gphotos-sync)
+Worked based on [spraot/gphotos-sync](https://github.com/spraot/gphotos-sync) (Thanks to @spraot).
 
 ## Quickstart
 
@@ -32,33 +32,34 @@ Press any key after you have authenticated in your browser at http://localhost:6
 
 If you are running on Synology NAS, you can login on your computer and copy the authenticated profile directory to `${folder}/profile/` on remote server.
 
-### Step 2: Sync Photos/Albums from Google Photos
+### Step 2: Sync Photos/Album from Google Photos
 
-Execute [dosync.sh](dosync.sh) to sync photos/albums from Google Photos to local. You can modify `sync_args` in [dosync.sh](dosync.sh) to customize the syncing job.
+Execute [dosync.sh](dosync.sh) to sync photos/album from Google Photos to local. You can modify `sync_args` in [dosync.sh](dosync.sh) to customize the syncing job.
 
 ```sh
 sync_args=(
-  # note: paths in docker container
-  "-profile /tmp/gphotos-cdp" # user-provided profile dir
-  "-dldir /download"          # where to write the downloads
+  # DO NOT CHANGE: paths in docker container
+  "-profile /profile"              # user-provided profile dir
+  "-download-dir /downloads"       # where to write the downloads
+  "-db-file /db/gphotos.db"        # database file
 
-  "-headless"      # Start chrome browser in headless mode
-  "-loglevel info" # log level: debug, info, warn, error, fatal, panic
-  "-workers 6"     # number of concurrent downloads allowed
-  "-batchsize 1"   # number of photos to download in one batch
+  "-headless"        # Start chrome browser in headless mode
+  "-log-level info"   # log level: debug, info, warn, error, fatal, panic
 
-  "-run /app/update_exif.sh" # the program to run on each downloaded item, right after it is dowloaded
+  "-workers 3"       # number of concurrent downloads allowed
+  # "-batch-size 10"   # number of photos to be downloaded in one batch
+
+  "-run /app/mv_photo_dir.sh"   # the program to run on each downloaded item, right after it is dowloaded
 
   # uncomment this, if you want to sync album
-  # "-album id"        # ID of album to download, has no effect if lastdone file is found or if -start contains full URL
-  # "-albumtype album" # type of album to download (as seen in URL), has no effect if lastdone file is found or if -start contains full URL
+  # "-album id"         # ID of album to download, has no effect if lastdone file is found or if -start contains full UR
+  # "-album-type album" # type of album to download (as seen in URL)
 
-  # uncomment this, if you want to get removed photos
-  # "-removed"     # save list of files found locally that appear to be deleted from Google Photos
-
-  # uncomment this, if you want to sync photos before/after the date (inclusive)
+  # uncomment this, if you want to sync photos after the date (inclusive)
   # "-from yyyy-mm-dd"   # earliest date to sync (YYYY-MM-DD)
-  # "-to yyyy-mm-dd"     # latest date to sync (YYYY-MM-DD)
+
+  # uncomment this, if you want to skip downloading photos
+  # "-skip-download" # skip downloading photos, only update the database
 )
 ```
 
