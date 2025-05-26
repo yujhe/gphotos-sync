@@ -4,6 +4,32 @@ A Docker container which runs the [yujhe/gphoto-cdp](https://github.com/yujhe/gp
 
 Worked based on [spraot/gphotos-sync](https://github.com/spraot/gphotos-sync) (Thanks to @spraot).
 
+The downloaded photos will be moved to "YYYY/MM" folder structure on file modified date
+
+```txt
+PhotoLibrary
+├── 2014
+│   └── 09
+│       └── LJhgid_IMG_2091.jpg
+├── 2020
+│   └── 12
+│       └── Cly937_ROD_0234-1.jpg
+├── 2021
+│   └── 04
+│       ├── FlMg7G_IMG_6351.JPG
+│       ├── G4s7n8_IMG_6355.JPG
+│       ├── alDKE3_IMG_6354.JPG
+│       ├── hQZVYl_IMG_6356.JPG
+│       ├── uA6xbo_IMG_6352.JPG
+│       └── zyme80_IMG_6350.JPG
+└── 2022
+    └── 02
+        ├── BbC3dn_IMG_8250.JPG
+        ├── FqClWL_IMG_8190.JPG
+        ├── KJpkoz_IMG_8191.JPG
+        └── _1-b5p_IMG_8251.JPG
+```
+
 ## Quickstart
 
 ### Requirement
