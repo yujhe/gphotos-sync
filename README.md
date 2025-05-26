@@ -1,6 +1,6 @@
 # GPHOTOS-SYNC
 
-A Docker container which runs the [yujhe/gphoto-cdp](https://github.com/yujhe/gphotos-cdps) tool automatically to synchronize Google Photos to local filesystem.
+A Docker container which runs the [yujhe/gphoto-cdp](https://github.com/yujhe/gphotos-cdp) tool automatically to synchronize Google Photos to local filesystem.
 
 Worked based on [spraot/gphotos-sync](https://github.com/spraot/gphotos-sync) (Thanks to @spraot).
 
