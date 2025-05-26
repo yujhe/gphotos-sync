@@ -40,6 +40,7 @@ sync_args=(
 )
 
 docker run --rm \
+  --privileged \
   --name "gphotos-sync-${SYNC_JOB_NAME}" \
   -v "$PROFILE_DIR":/profile \
   -v "$DOWNLOADS_DIR":/downloads  \
