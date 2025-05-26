@@ -17,7 +17,6 @@ ENV \
     WORKER_COUNT=6 \
     GPHOTOS_CDP_ARGS=
 
-# FIXME: remove unused packages
 RUN apt-get update && apt-get install -y \
         apt-transport-https \
         ca-certificates \
