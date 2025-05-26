@@ -2,42 +2,50 @@
 set -e
 set -o pipefail
 
-work_dir=$(dirname "$(readlink -f "$0")")
-repo=$(basename "$work_dir")
+WORK_DIR=$(dirname "$(readlink -f "$0")")
+SYNC_JOB_NAME=${JOB_NAME:-my-gphotos-sync}
 
-docker build . --tag gphotos-sync || exit 1
+docker build . --tag gphotos-sync
 
-rm -f "${work_dir}/profile/Singleton*"
+rm -f ${WORK_DIR}/profile/Singleton*
+
+PROFILE_DIR="${WORK_DIR}/profile"
+DOWNLOADS_DIR="${WORK_DIR}/downloads"
+PHOTOS_DIR="${WORK_DIR}/PhotoLibrary"
+DB_DIR="${WORK_DIR}/db"
 
 sync_args=(
-  # note: paths in docker container
-  "-profile /tmp/gphotos-cdp" # user-provided profile dir
-  "-dldir /download"          # where to write the downloads
+  # DO NOT CHANGE: paths in docker container
+  "-profile /profile"              # user-provided profile dir
+  "-download-dir /downloads"       # where to write the downloads
+  "-db-file /db/gphotos.db"        # database file
 
-  "-headless"      # Start chrome browser in headless mode
-  "-loglevel info" # log level: debug, info, warn, error, fatal, panic
-  "-workers 6"     # number of concurrent downloads allowed
-  "-batchsize 1"   # number of photos to download in one batch
+  "-headless"        # Start chrome browser in headless mode
+  "-log-level info"   # log level: debug, info, warn, error, fatal, panic
 
-  "-run /app/update_exif.sh" # the program to run on each downloaded item, right after it is dowloaded
+  "-workers 3"       # number of concurrent downloads allowed
+  # "-batch-size 10"   # number of photos to be downloaded in one batch
+
+  "-run /app/mv_photo_dir.sh"   # the program to run on each downloaded item, right after it is dowloaded
 
   # uncomment this, if you want to sync album
-  # "-album id"        # ID of album to download, has no effect if lastdone file is found or if -start contains full URL
-  # "-albumtype album" # type of album to download (as seen in URL), has no effect if lastdone file is found or if -start contains full URL
+  # "-album id"         # ID of album to download, has no effect if lastdone file is found or if -start contains full UR
+  # "-album-type album" # type of album to download (as seen in URL)
 
-  # uncomment this, if you want to get removed photos
-  # "-removed"     # save list of files found locally that appear to be deleted from Google Photos
-
-  # uncomment this, if you want to sync photos before/after the date (inclusive)
+  # uncomment this, if you want to sync photos after the date (inclusive)
   # "-from yyyy-mm-dd"   # earliest date to sync (YYYY-MM-DD)
-  # "-to yyyy-mm-dd"     # latest date to sync (YYYY-MM-DD)
+
+  # uncomment this, if you want to skip downloading photos
+  # "-skip-download" # skip downloading photos, only update the database
 )
 
 docker run --rm \
-  --name "gphotos-sync-${repo}" \
-  -v "${work_dir}/profile":/tmp/gphotos-cdp \
-  -v "${work_dir}/photos":/download \
+  --name "gphotos-sync-${SYNC_JOB_NAME}" \
+  -v "$PROFILE_DIR":/profile \
+  -v "$DOWNLOADS_DIR":/downloads  \
+  -v "$PHOTOS_DIR":/PhotoLibrary \
+  -v "$DB_DIR":/db \
   gphotos-sync:latest \
   ${sync_args[*]}
 
-rm -f "${work_dir}/profile/Singleton*"
+rm -f ${WORK_DIR}/profile/Singleton*

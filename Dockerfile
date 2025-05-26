@@ -1,6 +1,6 @@
 FROM golang:1.24-bookworm AS build
 
-ENV DEFAULT_GPHOTOS_CDP_VERSION=github.com/spraot/gphotos-cdp@41185542
+ENV DEFAULT_GPHOTOS_CDP_VERSION=github.com/yujhe/gphotos-cdp@1.0.1
 ENV GO111MODULE=on
 
 ARG GPHOTOS_CDP_VERSION=$DEFAULT_GPHOTOS_CDP_VERSION
@@ -17,13 +17,12 @@ ENV \
     WORKER_COUNT=6 \
     GPHOTOS_CDP_ARGS=
 
+# FIXME: remove unused packages
 RUN apt-get update && apt-get install -y \
         apt-transport-https \
         ca-certificates \
         curl \
-        cron \
         exiftool \
-        jq \
         wget \
         sudo \
     --no-install-recommends && \
@@ -34,6 +33,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY --from=build /go/bin/gphotos-cdp /usr/bin/
 COPY scripts /app
+RUN chmod +x /app/*.sh
 
 ENTRYPOINT ["gphotos-cdp"]
 CMD ["-h"]
