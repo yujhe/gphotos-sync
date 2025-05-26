@@ -12,10 +12,7 @@ ENV \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     CHROME_PACKAGE=google-chrome-stable_current_amd64.deb \
-    DEBIAN_FRONTEND=noninteractive \
-    ALBUMS= \
-    WORKER_COUNT=6 \
-    GPHOTOS_CDP_ARGS=
+    DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y \
         apt-transport-https \
